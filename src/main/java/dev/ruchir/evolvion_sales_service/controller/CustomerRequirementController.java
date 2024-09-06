@@ -4,13 +4,15 @@ import dev.ruchir.evolvion_sales_service.dto.CustomerRequirementDTO;
 import dev.ruchir.evolvion_sales_service.service.interfaces.CustomerRequirementService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/customer-requirements")
+@Validated
 public class CustomerRequirementController {
 
     private final CustomerRequirementService customerRequirementService;
@@ -21,27 +23,27 @@ public class CustomerRequirementController {
     }
 
     @PostMapping
-    public ResponseEntity<CustomerRequirementDTO> createCustomerRequirement(@RequestBody CustomerRequirementDTO customerRequirementDTO) {
+    public ResponseEntity<CustomerRequirementDTO> createCustomerRequirement(@Valid @RequestBody CustomerRequirementDTO customerRequirementDTO) {
         CustomerRequirementDTO createdCustomerRequirement = customerRequirementService.createCustomerRequirement(customerRequirementDTO);
         return ResponseEntity.ok(createdCustomerRequirement);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<CustomerRequirementDTO> updateCustomerRequirement(@PathVariable Long id, @RequestBody CustomerRequirementDTO customerRequirementDTO) {
+    public ResponseEntity<CustomerRequirementDTO> updateCustomerRequirement(@PathVariable Long id, @Valid @RequestBody CustomerRequirementDTO customerRequirementDTO) {
         CustomerRequirementDTO updatedCustomerRequirement = customerRequirementService.updateCustomerRequirement(id, customerRequirementDTO);
         return ResponseEntity.ok(updatedCustomerRequirement);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Optional<CustomerRequirementDTO>> getCustomerRequirementById(@PathVariable Long id) {
-        Optional<CustomerRequirementDTO> customerRequirementDTO = customerRequirementService.getCustomerRequirementById(id);
-        return ResponseEntity.ok(customerRequirementDTO);
+    public ResponseEntity<CustomerRequirementDTO> getCustomerRequirementById(@PathVariable Long id) {
+        return customerRequirementService.getCustomerRequirementById(id)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
     }
 
     @GetMapping
     public ResponseEntity<List<CustomerRequirementDTO>> getAllCustomerRequirements() {
-        List<CustomerRequirementDTO> customerRequirements = customerRequirementService.getAllCustomerRequirements();
-        return ResponseEntity.ok(customerRequirements);
+        return ResponseEntity.ok(customerRequirementService.getAllCustomerRequirements());
     }
 
     @DeleteMapping("/{id}")
