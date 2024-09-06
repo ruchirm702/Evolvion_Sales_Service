@@ -6,6 +6,7 @@ import lombok.Setter;
 import org.springframework.http.HttpStatus;
 
 import java.time.LocalDateTime;
+import java.util.Map;
 
 @Getter
 @Setter
@@ -15,5 +16,6 @@ public class ErrorResponse {
     private String errorCode;
     private LocalDateTime timestamp;
     private HttpStatus status;
-    private String errorId; // Optional field for tracking errors
+    private String errorId;
+    private Map<String, String> validationErrors; // Added field for validation errors
 }
