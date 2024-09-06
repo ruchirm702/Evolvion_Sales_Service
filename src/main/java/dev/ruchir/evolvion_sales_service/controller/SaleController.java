@@ -4,13 +4,15 @@ import dev.ruchir.evolvion_sales_service.dto.SaleDTO;
 import dev.ruchir.evolvion_sales_service.service.interfaces.SaleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/sales")
+@Validated
 public class SaleController {
 
     private final SaleService saleService;
@@ -21,27 +23,27 @@ public class SaleController {
     }
 
     @PostMapping
-    public ResponseEntity<SaleDTO> createSale(@RequestBody SaleDTO saleDTO) {
+    public ResponseEntity<SaleDTO> createSale(@Valid @RequestBody SaleDTO saleDTO) {
         SaleDTO createdSale = saleService.createSale(saleDTO);
         return ResponseEntity.ok(createdSale);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<SaleDTO> updateSale(@PathVariable Long id, @RequestBody SaleDTO saleDTO) {
+    public ResponseEntity<SaleDTO> updateSale(@PathVariable Long id, @Valid @RequestBody SaleDTO saleDTO) {
         SaleDTO updatedSale = saleService.updateSale(id, saleDTO);
         return ResponseEntity.ok(updatedSale);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Optional<SaleDTO>> getSaleById(@PathVariable Long id) {
-        Optional<SaleDTO> saleDTO = saleService.getSaleById(id);
-        return ResponseEntity.ok(saleDTO);
+    public ResponseEntity<SaleDTO> getSaleById(@PathVariable Long id) {
+        return saleService.getSaleById(id)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
     }
 
     @GetMapping
     public ResponseEntity<List<SaleDTO>> getAllSales() {
-        List<SaleDTO> sales = saleService.getAllSales();
-        return ResponseEntity.ok(sales);
+        return ResponseEntity.ok(saleService.getAllSales());
     }
 
     @DeleteMapping("/{id}")
