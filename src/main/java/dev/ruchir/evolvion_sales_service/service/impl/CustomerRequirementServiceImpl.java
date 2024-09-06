@@ -33,6 +33,7 @@ public class CustomerRequirementServiceImpl implements CustomerRequirementServic
             CustomerRequirement savedCustomerRequirement = customerRequirementRepository.save(customerRequirement);
             return customerRequirementMapper.toDTO(savedCustomerRequirement);
         } catch (Exception e) {
+            // Logging exception might be helpful here
             throw new CustomerRequirementCreationException("Failed to create customer requirement", e);
         }
     }
@@ -48,6 +49,7 @@ public class CustomerRequirementServiceImpl implements CustomerRequirementServic
             CustomerRequirement updatedCustomerRequirement = customerRequirementRepository.save(customerRequirement);
             return customerRequirementMapper.toDTO(updatedCustomerRequirement);
         } catch (Exception e) {
+            // Logging exception might be helpful here
             throw new CustomerRequirementUpdateException("Failed to update customer requirement", e);
         }
     }

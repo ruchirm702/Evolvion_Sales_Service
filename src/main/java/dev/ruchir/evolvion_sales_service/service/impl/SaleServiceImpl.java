@@ -33,6 +33,7 @@ public class SaleServiceImpl implements SaleService {
             Sale savedSale = saleRepository.save(sale);
             return saleMapper.toDTO(savedSale);
         } catch (Exception e) {
+            // Logging exception might be helpful here
             throw new SaleCreationException("Failed to create sale", e);
         }
     }
@@ -48,6 +49,7 @@ public class SaleServiceImpl implements SaleService {
             Sale updatedSale = saleRepository.save(sale);
             return saleMapper.toDTO(updatedSale);
         } catch (Exception e) {
+            // Logging exception might be helpful here
             throw new SaleUpdateException("Failed to update sale", e);
         }
     }

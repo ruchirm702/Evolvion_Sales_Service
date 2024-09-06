@@ -4,7 +4,6 @@ import dev.ruchir.evolvion_sales_service.controller_advise.Order_Exceptions.Orde
 import dev.ruchir.evolvion_sales_service.controller_advise.Order_Exceptions.OrderNotFoundException;
 import dev.ruchir.evolvion_sales_service.controller_advise.Order_Exceptions.OrderUpdateException;
 import dev.ruchir.evolvion_sales_service.dto.OrderDTO;
-
 import dev.ruchir.evolvion_sales_service.mapper.OrderMapper;
 import dev.ruchir.evolvion_sales_service.model.core.Order;
 import dev.ruchir.evolvion_sales_service.repository.OrderRepository;
@@ -34,6 +33,7 @@ public class OrderServiceImpl implements OrderService {
             Order savedOrder = orderRepository.save(order);
             return orderMapper.toDTO(savedOrder);
         } catch (Exception e) {
+            // Logging exception might be helpful here
             throw new OrderCreationException("Failed to create order", e);
         }
     }
@@ -49,6 +49,7 @@ public class OrderServiceImpl implements OrderService {
             Order updatedOrder = orderRepository.save(order);
             return orderMapper.toDTO(updatedOrder);
         } catch (Exception e) {
+            // Logging exception might be helpful here
             throw new OrderUpdateException("Failed to update order", e);
         }
     }
