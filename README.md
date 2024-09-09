@@ -139,3 +139,78 @@ Evolvion_Sales_Service
        - `SaleService`: Interface for sale-related methods.
        - `OrderService`: Interface for order-related methods.
        - `CustomerRequirementService`: Interface for customer requirement-related methods.
+
+## ⚠️ Exception Handling
+
+Exception handling in the application is managed centrally using Spring's `@ControllerAdvice` and custom exception classes. This ensures a clean separation of concerns, allowing controllers to focus on business logic while delegating error handling to a centralized mechanism.
+
+### 1. **Global Exception Handler**
+   - The **GlobalExceptionHandler** class, annotated with `@ControllerAdvice`, captures exceptions thrown from any controller and handles them uniformly.
+   - It ensures that specific exceptions are translated into meaningful HTTP responses, such as `400 Bad Request`, `404 Not Found`, or `500 Internal Server Error`.
+   - **Key Methods**:
+     - Handles common exceptions like `IllegalArgumentException`, `MethodArgumentNotValidException`, etc.
+     - Customizes responses for business-specific exceptions.
+
+### 2. **Custom Exception Classes**
+   Custom exceptions are defined for each domain entity (Sale, Order, CustomerRequirement) to capture specific error scenarios.
+   
+   - **Sale_Exceptions**:
+     - `SaleNotFoundException`: Thrown when a requested sale is not found.
+     - `SaleCreationException`: Raised when the system encounters an issue during sale creation.
+     - `SaleUpdateException`: Thrown when updating a sale fails.
+
+   - **Order_Exceptions**:
+     - `OrderNotFoundException`: Thrown when an order does not exist.
+     - `OrderCreationException`: Raised if there’s an issue during order creation.
+     - `OrderUpdateException`: Thrown when updating an order fails.
+
+   - **CustomerRequirement_Exceptions**:
+     - `CustomerRequirementNotFoundException`: Thrown when a customer requirement is not found.
+     - `CustomerRequirementCreationException`: Raised during customer requirement creation errors.
+     - `CustomerRequirementUpdateException`: Thrown when customer requirement updates fail.
+
+### 3. **ErrorResponse**
+   - The `ErrorResponse` class is used to encapsulate details of the error response sent to the client.
+   - Contains fields like:
+     - `timestamp`: The date and time when the error occurred.
+     - `message`: A user-friendly message explaining the error.
+     - `details`: Additional context or details about the error.
+
+### 4. **Standardized Error Responses**
+   - The `GlobalExceptionHandler` ensures that all exceptions return a well-structured `ErrorResponse` object.
+   - This provides consistency and clarity to clients consuming the API, detailing the cause of errors with appropriate HTTP status codes (e.g., 404 for not found, 400 for bad request).
+
+## ✅ Validation
+
+DTO validation in the application is handled using Java Bean Validation (JSR 380) annotations provided by the `javax.validation` package. This ensures that incoming data is verified before reaching the service layer, helping maintain data integrity and preventing invalid input.
+
+### Key Validation Features:
+- **@NotNull**: Ensures that fields like `amount`, `quantity`, and `status` are not null.
+- **@Size**: Limits the size of fields such as `saleNumber`, `orderNumber`, and `customerName` to prevent overly large inputs.
+- **@Min / @Max**: Applies to numeric fields like `amount` and `price` to enforce valid ranges.
+- **@PastOrPresent**: Validates date fields like `createdAt` and `updatedAt` to ensure they are not set in the future.
+
+By leveraging these annotations, the system automatically triggers validation errors when invalid data is submitted, providing feedback through standardized error responses.
+
+
+## 📄 Logging
+
+The application uses **SLF4J** with **Logback** as the logging framework to capture important runtime events and errors. Logging is implemented across the services to ensure transparency in operations and to aid in debugging.
+
+### Key Logging Features:
+- **Info Logs**: Used to log significant business events, such as the creation or updating of a sale, order, or customer requirement.
+- **Error Logs**: Captures exceptions and errors, especially in cases of service failures or invalid operations, ensuring detailed traceability.
+- **Debug Logs**: Provides insights during development and debugging to track detailed internal operations.
+- **Centralized Logging**: All logs are centrally managed, and log levels can be adjusted via `logback.xml` to suit different environments (development, testing, production).
+
+This setup ensures efficient monitoring and quick resolution of issues during runtime.
+
+## Contributing Guidelines
+
+We welcome contributions to the Evolvion Accounts Service project! To contribute:
+
+1. Fork the repository.
+2. Create a new branch for your feature or bug fix.
+3. Make your changes and commit them with clear messages.
+4. Push your changes to your fork.
+5. Submit a pull request to the main repository.
