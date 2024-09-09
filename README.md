@@ -55,8 +55,6 @@ Evolvion_Sales_Service
 
 ## 🛠️ Services Overview
 
-## 🛠️ Services Overview
-
 ### 1. **Sale Service**
    - **Purpose:** Manages sales operations, including creation, updates, retrieval, and deletion of sales.
    - **Core Functionality:**
@@ -85,3 +83,59 @@ Evolvion_Sales_Service
      - Delete a customer requirement by ID.
 
 
+## 📦 Package Descriptions
+
+### 1. **controller**
+   - Contains RESTful controllers responsible for handling HTTP requests and directing them to the appropriate services.
+   - **Files:**
+     - `SaleController`: Manages sale-related endpoints.
+     - `OrderController`: Handles order-related API requests.
+     - `CustomerRequirementController`: Manages customer requirement-related operations.
+
+### 2. **controller_advise**
+   - Provides centralized exception handling for the application by using `@ControllerAdvice`.
+   - **Files:**
+     - `Sale_Exceptions`: Custom exceptions for Sale operations.
+     - `Order_Exceptions`: Custom exceptions for Order operations.
+     - `CustomerRequirement_Exceptions`: Custom exceptions for Customer Requirement operations.
+     - `ErrorResponse`: Defines the structure of error responses.
+     - `GlobalExceptionHandler`: Captures and handles exceptions thrown across the application.
+
+### 3. **model**
+   - Defines the core entities and enums used throughout the application.
+   - **Files:**
+     - `core`: Holds the entity models for `Sale`, `Order`, and `CustomerRequirement`.
+     - `enums`: Contains enumerations for payment methods, statuses, customer priorities, etc.
+
+### 4. **dto**
+   - Contains Data Transfer Objects (DTOs) that are used to pass data between the controller and service layers.
+   - **Files:**
+     - `SaleDTO`: DTO for Sale data.
+     - `OrderDTO`: DTO for Order data.
+     - `CustomerRequirementDTO`: DTO for Customer Requirement data.
+
+### 5. **mappers**
+   - Provides mapper classes to convert between entities and DTOs.
+   - **Files:**
+     - `SaleMapper`: Maps between `Sale` entities and `SaleDTO`.
+     - `OrderMapper`: Maps between `Order` entities and `OrderDTO`.
+     - `CustomerRequirementMapper`: Maps between `CustomerRequirement` entities and `CustomerRequirementDTO`.
+
+### 6. **repository**
+   - Contains repository interfaces for database access, extending JPA repositories.
+   - **Files:**
+     - `SaleRepository`: Repository for Sale operations.
+     - `OrderRepository`: Repository for Order operations.
+     - `CustomerRequirementRepository`: Repository for Customer Requirement operations.
+
+### 7. **service**
+   - Defines the business logic of the application.
+   - **Sub-packages:**
+     - **Implementation:** Implements the service interfaces.
+       - `SaleServiceImpl`: Implements sale operations.
+       - `OrderServiceImpl`: Implements order operations.
+       - `CustomerRequirementServiceImpl`: Implements customer requirement operations.
+     - **Interface:** Defines the service interfaces.
+       - `SaleService`: Interface for sale-related methods.
+       - `OrderService`: Interface for order-related methods.
+       - `CustomerRequirementService`: Interface for customer requirement-related methods.
